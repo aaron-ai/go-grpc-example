@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "foo/bar";
+
+message SayHelloRequest {
+  string request_content = 1;
+}
+
+message SayHelloResponse {
+  string response_content = 1;
+}
+
+service SayHello{
+  rpc Unary(SayHelloRequest) returns (SayHelloResponse) {}
+
+  rpc BidirectionalStream(stream SayHelloRequest) returns (stream SayHelloResponse) {}
+
+  rpc ServerStream(SayHelloRequest) returns (stream SayHelloResponse) {}
+}

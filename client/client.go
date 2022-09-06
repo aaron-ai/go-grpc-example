@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	v2 "go-grpc-example/apache/rocketmq/v2"
+	gen "go-grpc-example/foo/bar"
 	"google.golang.org/grpc"
 	"log"
 	"time"
@@ -15,16 +15,16 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := v2.NewMessagingServiceClient(conn)
+	c := gen.NewSayHelloClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 
 	defer cancel()
 
-	r, err := c.SendMessage(ctx, &v2.SendMessageRequest{})
+	r, err := c.Unary(ctx, &gen.SayHelloRequest{})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 
-	log.Printf("Status: %s", r.Status)
+	log.Printf("Status: %s", r.ResponseContent)
 }
